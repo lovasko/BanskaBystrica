@@ -19,16 +19,19 @@
 
 int main(int argc, char** argv)
 {
-	unsigned short port = LISTEN_PORT;
+	int opt;
+	unsigned short port;
 	struct in_addr addr;
+	int serverfd;
+
+	port = LISTEN_PORT;
 	addr.s_addr = LISTEN_ADDRESS;
 
-	/* Command line options */
-	// _BSD_SOURCE required for inet_aton()
-	// getopt() needs _POSIX_C_SOURCE >= 2 or _XOPEN_SOURCE
-
+	/**
+	 * _BSD_SOURCE required for inet_aton()
+	 * getopt() needs _POSIX_C_SOURCE >= 2 or _XOPEN_SOURCE
+	 */
 #if defined _BSD_SOURCE && (_POSIX_C_SOURCE >= 2 || defined _XOPEN_SOURCE)
-	int opt;
 	while ((opt = getopt(argc, argv, "va:p:")) != -1)
 	{
 		switch(opt)
@@ -60,7 +63,7 @@ int main(int argc, char** argv)
 #endif
 
 	info_print_format("Starting server at port %d", port);
-	int serverfd = socket_create_and_bind(addr.s_addr, port);
+	serverfd = socket_create_and_bind(addr.s_addr, port);
 	if (serverfd < 0)
 	{
 		error_print_exit("socket_create_and_bind");
