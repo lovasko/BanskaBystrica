@@ -1,14 +1,11 @@
 #ifndef COMMON_H
 #define	COMMON_H
 
-/* Compile time configuration */
-#ifndef LISTEN_ADDRESS
-    #define LISTEN_ADDRESS  INADDR_ANY
-#endif
-#ifndef LISTEN_PORT
-    #define LISTEN_PORT  6667
-#endif
+/** Used as function success return value. */
+#define OK 0
 
+/** Used as function failure return value. */
+#define FAIL 1
 
 #ifndef MESSAGE_HANDLER_HASHTABLE_SIZE
     #define MESSAGE_HANDLER_HASHTABLE_SIZE  64

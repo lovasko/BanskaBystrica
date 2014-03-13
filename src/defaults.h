@@ -15,4 +15,10 @@
 	#warning "Default address already defined!"
 #endif
 
+#ifndef DEFAULT_MODULES_FILE
+	#define DEFAULT_MODULES_FILE "modules"
+#else
+	#warning "Default modules file location already defined!"
+#endif
+
 #endif
