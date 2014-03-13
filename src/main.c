@@ -16,6 +16,7 @@
 #include "message.h"
 #include "common.h"
 #include "commands.h"
+#include "defaults.h"
 
 int main(int argc, char** argv)
 {
@@ -24,8 +25,8 @@ int main(int argc, char** argv)
 	struct in_addr addr;
 	int serverfd;
 
-	port = LISTEN_PORT;
-	addr.s_addr = LISTEN_ADDRESS;
+	port = DEFAULT_PORT;
+	addr.s_addr = DEFAULT_ADDRESS;
 
 	/**
 	 * _BSD_SOURCE required for inet_aton()
