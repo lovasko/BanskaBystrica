@@ -33,12 +33,44 @@ int options_parse(int argc, char **argv, struct options *opt)
 		break;
 
 		case 'p': /* Port */
-			/* TODO use strtol */
-			opt->port = atoi(optarg);
+			errno = 0;
+			long int input = strtol(optarg, NULL, 10);
+
+			if (errno != 0)
+			{
+				if (errno == EINVAL)
+				{
+					fprintf(stderr, "%s: unable to convert -- '%s'\n", argv[0], optarg);
+				}
+				else if (errno == ERANGE)
+				{
+					fprintf(stderr, "%s: out of range -- '%s'\n", argv[0], optarg);
+				}
+				else
+				{
+					fprintf(stderr, "%s: unknown problem\n", argv[0]);
+				}
+				
+				return FAIL;
+			}
+
+			if (input < 0)
+			{
+				fprintf(stderr, "%s: port number negative -- '%s'\n", argv[0], optarg);
+				return FAIL;
+			}
+
+			if (input > 65535)
+			{
+				fprintf(stderr, "%s: port number too high -- '%s'\n", argv[0], optarg);
+				return FAIL;
+			}
+
+			opt->port = (unsigned short)input;
 		break;
 
 		case 'm':
-			opt->modules_file = strdup(optarg);	
+			opt->modules_file = strdup(optarg);
 		break;
 
 		case '?':
