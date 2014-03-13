@@ -63,37 +63,27 @@ int main(int argc, char** argv)
 #warning "getopt requires _BSD_SOURCE && (_POSIX_C_SOURCE >= 2 || _XOPEN_SOURCE)" 
 #endif
 
-	info_print_format("Starting server at port %d", port);
 	serverfd = socket_create_and_bind(addr.s_addr, port);
 	if (serverfd < 0)
 	{
 		error_print_exit("socket_create_and_bind");
 	}
 
-	info_print("Setting server socket to nonblocking mode");
 	if (socket_set_nonblocking(serverfd) < 0)
 	{
 		error_print_exit("socket_set_nonblocking");
 	}
 
-	info_print("Listening with max number of clients");
 	if (socket_listen(serverfd, -1) < 0)
 	{
 		error_print_exit("socket_listen");
 	}
 
-	info_print("Registering event handlers");
 	event_register_handlers();
-	info_print("Registering command handlers");
 	command_register_handlers();
-
-	info_print("Registering signal handlers");
 	signal_register_handlers();
 
-	info_print("Entering main event loop");
 	event_start_loop(serverfd);
-
-	info_print("Shutdown complete");
 	return EXIT_SUCCESS;
 }
 
